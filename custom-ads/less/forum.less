@@ -1,0 +1,113 @@
+.App-header {
+    position: relative;
+}
+
+.knowz-ads-container {
+    max-width: 1300px;
+    margin: 0 auto 0;
+    padding: 0 16px;
+    padding-top: 30px;
+    transition: margin 0.3s ease;
+
+    &.is-hidden {
+        margin-bottom: 0;
+    }
+}
+
+.knowz-ads-toggle {
+    position: absolute;
+    right: 24px;
+    top: 45px;
+
+    padding: 8px 16px;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 20;
+}
+
+.knowz-ads-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+.knowz-ads-toggle:active {
+    transform: scale(0.96);
+}
+
+.knowz-ads-toggle span,
+.knowz-ads-toggle .icon {
+    font-size: 14px;
+    color: #666;
+}
+
+.knowz-ads-wrapper {
+    position: relative;
+}
+
+.knowz-ads-content {
+    max-height: 500px;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.knowz-ads-container.is-hidden {
+    .knowz-ads-content {
+        max-height: 0;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .knowz-ads-toggle {
+        margin-bottom: 0;
+    }
+}
+
+.knowz-ads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 300px));
+    gap: 20px;
+    justify-content: center;
+}
+
+.knowz-ad-card {
+    width: 300px;
+    height: 150px;
+    border-radius: 5px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    text-decoration: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.knowz-ad-content {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.7),
+            rgba(0, 0, 0, 0));
+    color: #fff;
+
+    h4 {
+        margin: 0 0 4px;
+        font-size: 16px;
+    }
+
+    p {
+        margin: 0;
+        font-size: 14px;
+        opacity: 0.9;
+    }
+}

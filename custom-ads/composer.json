@@ -1,0 +1,26 @@
+{
+  "name": "knowz/custom-ads",
+  "description": "Custom ads extension for Flarum",
+  "type": "flarum-extension",
+  "license": "MIT",
+    "require": {
+    "flarum/core": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Knowz\\CustomAds\\": "src/"
+    }
+  },
+  "extra": {
+    "flarum-extension": {
+      "title": "Custom Ads 1",
+      "id": "knowz-custom-ads",
+            "category": "feature",
+      "icon": {
+        "name": "fas fa-ad",
+        "backgroundColor": "#238c59",
+        "color": "#fff"
+      }
+    }
+  }
+}
