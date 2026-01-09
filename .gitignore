@@ -1,0 +1,14 @@
+# Node modules
+*/js/node_modules/
+*/js/dist/*.map
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
