@@ -1,3 +1,9 @@
+.GuestPendingModal {
+    .Modal-body {
+        padding-top: 10px;
+    }
+}
+
 .guest-pending-overlay {
     position: fixed;
     top: 0;
@@ -19,18 +25,20 @@
     max-width: 400px;
 
     p {
-        margin-bottom: 20px;
+        margin-bottom: 50px;
         line-height: 1.5;
     }
 
     .Button-group {
         display: flex;
-        gap: 10px;
+        flex-direction: column;
+        gap: 15px;
         justify-content: center;
         margin-top: 20px;
     }
 
     .Button {
+        width: 100%;
         padding: 10px 20px;
         border: none;
         cursor: pointer;

@@ -4,77 +4,101 @@ import Button from 'flarum/common/components/Button';
 import DiscussionComposer from 'flarum/forum/components/DiscussionComposer';
 import DiscussionPage from 'flarum/forum/components/DiscussionPage';
 import SignUpModal from 'flarum/forum/components/SignUpModal';
-import { extend, override } from 'flarum/common/extend';
+import LogInModal from 'flarum/forum/components/LogInModal';
+import Alert from 'flarum/common/components/Alert';
+import { extend } from 'flarum/common/extend';
 
 class GuestPendingModal extends Modal {
-    className() {
-        return 'GuestPendingModal Modal--small';
-    }
+  className() {
+    return 'GuestPendingModal Modal--small';
+  }
 
-    title() {
-        return 'Thank you for posting!';
-    }
+  title() {
+    return 'Thank you for posting!';
+  }
 
-    content() {
-        return m('div.Modal-body', [
-            m('div.guest-pending-box', [
-                m('p', 'Your post is awaiting admin approval. In the meantime, please consider signing up for an account to stay updated on the status of your post and to participate more fully in the community.'),
-                m('div.Button-group', [
-                    Button.component({
-                        className: 'Button Button--primary',
-                        onclick: () => {
-                            app.modal.close();
-                            app.modal.show(SignUpModal);
-                        }
-                    }, 'Sign Up'),
-                    Button.component({
-                        className: 'Button',
-                        onclick: () => {
-                            app.modal.close();
-                        }
-                    }, 'Close')
-                ])
-            ])
-        ]);
-    }
+  content() {
+    return m('div.Modal-body', [
+      m('div.guest-pending-box', [
+        m(
+          'p',
+          'Your post is awaiting admin approval. You can sign up or log in to track its status and participate more fully in the community.'
+        ),
+        m('div.Button-group', [
+          Button.component(
+            {
+              className: 'Button Button--primary',
+              onclick: () => {
+                app.modal.close();
+                app.modal.show(SignUpModal);
+              },
+            },
+            'Sign Up'
+          ),
+          Button.component(
+            {
+              className: 'Button',
+              onclick: () => {
+                app.modal.close();
+                app.modal.show(LogInModal);
+              },
+            },
+            'Log In'
+          ),
+          Button.component(
+            {
+              className: 'Button',
+              onclick: () => app.modal.close(),
+            },
+            'Close'
+          ),
+        ]),
+      ]),
+    ]);
+  }
 }
 
 app.initializers.add('knowz/guest-pending-ui', () => {
-    let guestJustPosted = false;
-    let suppressErrors = false;
+  let guestJustPosted = false;
+  let suppress404 = false;
 
-    // Track when guest submits
-    extend(DiscussionComposer.prototype, 'data', function (data) {
-        if (!app.session.user) {
-            guestJustPosted = true;
-            suppressErrors = true;
-        }
-    });
+  // Mark that a guest has just submitted a discussion
+  extend(DiscussionComposer.prototype, 'data', function () {
+    if (!app.session.user) {
+      guestJustPosted = true;
+      suppress404 = true;
+    }
+  });
 
-    // Suppress error alerts for guests who just posted
-    extend(app.alerts, 'show', function (component) {
-        if (suppressErrors && component && component.attrs && component.attrs.type === 'error') {
-            // Don't show error alerts
-            return;
-        }
-    });
+  // Suppress ONLY the 404 / Not Found alert
+  extend(app.alerts, 'show', function (alert) {
+    if (
+      suppress404 &&
+      alert instanceof Alert &&
+      alert.attrs?.type === 'error' &&
+      typeof alert.children === 'string' &&
+      alert.children.toLowerCase().includes('not found')
+    ) {
+      return;
+    }
+  });
 
-    // Prevent navigation to discussion page for guests who just posted
-    extend(DiscussionPage.prototype, 'oninit', function () {
-        if (guestJustPosted && !app.session.user) {
-            guestJustPosted = false;
-            
-            // Redirect to home
-            m.route.set('/');
-            
-            // Show modal and reset error suppression after modal shows
-            setTimeout(() => {
-                app.modal.show(GuestPendingModal);
-                // Reset error suppression after a delay
-                setTimeout(() => {
-                    suppressErrors = false;
-                }, 1000);
-            }, 100);
-        }
-    });
+  // Intercept discussion page load after guest post
+  extend(DiscussionPage.prototype, 'oninit', function () {
+    if (guestJustPosted && !app.session.user) {
+      guestJustPosted = false;
+
+      // Go back home BEFORE page renders
+      m.route.set('/');
+
+      setTimeout(() => {
+        app.modal.show(GuestPendingModal);
+
+        // Re-enable alerts after modal appears
+        setTimeout(() => {
+          suppress404 = false;
+        }, 500);
+      }, 50);
+    }
+  });
 });
