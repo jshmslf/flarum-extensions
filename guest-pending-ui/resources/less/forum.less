@@ -1,0 +1,58 @@
+.guest-pending-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.guest-pending-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 400px;
+
+    p {
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+
+    .Button-group {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .Button {
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+        font-weight: 500;
+
+        &--primary {
+            background: #4ebf80;
+            color: #fff;
+
+            &:hover {
+                background: darken(#4ebf80, 10%);
+            }
+        }
+
+        &:not(.Button--primary) {
+            background: #e0e0e0;
+            color: #333;
+
+            &:hover {
+                background: darken(#e0e0e0, 10%);
+            }
+        }
+    }
+}

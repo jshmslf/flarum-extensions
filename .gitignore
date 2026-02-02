@@ -12,3 +12,26 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Node modules
+node_modules/
+js/node_modules/
+js/dist/
+
+# Composer
+vendor/
+
+# Build artifacts
+*.map
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*

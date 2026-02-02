@@ -1,0 +1,24 @@
+{
+    "name": "knowz/guest-pending-ui",
+    "description": "Guest pending UI for Flarum",
+    "type": "flarum-extension",
+    "require": {
+        "flarum/core": "^1.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Knowz\\GuestPendingUI\\": "src/"
+        }
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Guest Pending UI",
+            "category": "feature",
+            "icon": {
+                "name": "fas fa-clock",
+                "backgroundColor": "#e74c3c",
+                "color": "#fff"
+            }
+        }
+    }
+}
